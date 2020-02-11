@@ -16,6 +16,7 @@ class Book(models.Model):
     book继承了Model类 因为Model类拥有操作数据库的功能
     """
     title=models.CharField(max_length=20)
+    price=models.FloatField(default=0)
     pub_date=models.DateField(default="1983-06-01")
 
 
