@@ -31,7 +31,7 @@ def jsondata(res):
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 使用path将booktest的路由进行包含
-    path('booktest/',include('booktest.urls')),
+    path('',include('booktest.urls',namespace='booktest')),
     # 将index路由与index视图函数绑定
     path("index/",index),
     path("list/",list),
@@ -43,3 +43,14 @@ urlpatterns = [
 # admin路由是Django自带的后台管理路由
 
 # 总的路由匹配文件  项目路由文件  使用include包含应用路由文件
+
+# 硬编码  在html文件中有很多超链接  其中href属性如果写成绝对路径  这种就叫硬编码
+# 在开发中可能需要反复修改路由  若使用硬解码很不方便
+# 需要解除硬解码
+# 1.需要给应用一个 app_name = '应用名'  写在应用的urls.py文件中
+# 2.在项目路由中给应用分流时 在include中 提供命名空间
+# 3.在应用中给灭一个路由一个名字
+# 4.在html中使用时 href="{% url '命名空间名:路由name' 实参列表 %}
+# 以前定位路由 靠总路由正则表达+应用路由正则表达式
+# 解除硬编码之后 使用 应用命名空间+应用路由名字
+

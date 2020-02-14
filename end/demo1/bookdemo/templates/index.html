@@ -20,7 +20,8 @@
             <h2>共有书籍({{books.count}})</h2>
             <ul>
                 {% for book in books %}
-                    <a href="/booktest/detail/{{book.id}}/">
+                    {# <a href="/detail/{{book.id}}/"> #}
+                    <a href="{% url 'booktest:detail' book.id %}">
                         <li>{{book.id}}---{{book.title}} --- {{book.price}}  </li>
                     </a>
                 {% endfor %}
