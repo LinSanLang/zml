@@ -70,6 +70,32 @@ def edithero(res,heroid):
         url = reverse("booktest:detail",args=(hero.book.id,))
         return redirect(to=url)
 
+def addbook(res):
+    # 视图函数中可以同时存在get和post请求 默认为get
+    if res.method == 'GET':
+        return render(res,'addbook.html')
+    elif res.method == "POST":
+        book=Book()
+        book.title = res.POST.get("booktitle")
+        book.pub_date = res.POST.get("bookdate")
+        book.price = res.POST.get("bookprice")
+        book.save()
+        return redirect(to='/')
+
+def editbook(res,bookid):
+    book = Book.objects.get(id=bookid)
+    # 视图函数中可以同时存在get和post请求 默认为get
+    if res.method == 'GET':
+        return render(res,'editbook.html')
+    elif res.method == "POST":
+        book.title = res.POST.get("booktitle")
+        book.pub_date = res.POST.get("bookdate")
+        book.price = res.POST.get("bookprice")
+        book.save()
+        return redirect(to='/')
+
+
+
 
 
 def detail(res,bookid):
