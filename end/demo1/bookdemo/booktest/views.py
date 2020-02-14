@@ -84,10 +84,10 @@ def addbook(res):
 
 def editbook(res,bookid):
     book = Book.objects.get(id=bookid)
-    # book.pub_date = str(book.pub_date)
+    book.pub_date = str(book.pub_date)
     # 视图函数中可以同时存在get和post请求 默认为get
     if res.method == 'GET':
-        return render(res,'editbook.html')
+        return render(res,'editbook.html',{"book":book})
     elif res.method == "POST":
         book.title = res.POST.get("booktitle")
         book.pub_date = res.POST.get("bookdate")
