@@ -31,7 +31,8 @@ def jsondata(res):
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 使用path将booktest的路由进行包含
-    path('',include('booktest.urls',namespace='booktest')),
+    path('one',include('booktest.urls',namespace='booktest')),
+    path('',include('polls.urls',namespace='poll')),
     # 将index路由与index视图函数绑定
     path("index/",index),
     path("list/",list),

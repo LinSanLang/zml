@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投票小程序</title>
+</head>
+<body>
+    <h1>请选择为那个问题投票</h1>
+    总数：{{questions.count}}
+    <ul>
+        {% for question in questions %}
+            <a href="{% url 'polls:detail2' question.id %}">
+                {{question.title}}
+            </a>
+        <br>
+
+        {% endfor %}
+
+    </ul>
+</body>
+</html>

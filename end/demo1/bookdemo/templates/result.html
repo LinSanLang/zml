@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投票结果</title>
+</head>
+<body>
+<form action="#" method="post" >
+     问题：{{question.title}}
+    <br>
+    当前的票信息
+     <br>
+    <ul>
+        {% for option in question.option2_set.all %}
+        <li>
+            {{option.name}} 票数：{{option.num}}
+        </li>
+     {% endfor %}
+    </ul>
+    <a href="{% url 'polls:detail2' question.id %}">返回</a>
+</form>
+
+</body>
+</html>
