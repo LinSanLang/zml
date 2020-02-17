@@ -25,7 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$q72kbmp9**vh45=!&k-oo_s^j&!3kd(m%m)=t3l#c@ytoai(v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+# 只有关掉调试模式才能显示404之类的错误
 DEBUG = True
+# 如果设置了False  ALLOWED_HOSTS代表了那些域名不能访问
+# DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'booktest',
     'polls',
+    'download',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +131,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # 需要配置静态文件所处位置
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+
+

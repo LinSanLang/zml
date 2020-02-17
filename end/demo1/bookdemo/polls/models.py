@@ -8,6 +8,10 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "问题表"
+        verbose_name_plural = verbose_name
+
 class Option(models.Model):
     one = models.CharField(max_length=50,null=True)
     onenum = models.IntegerField(max_length=8,null=True)
@@ -30,3 +34,7 @@ class Option2(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "投票表"
+        verbose_name_plural = verbose_name
