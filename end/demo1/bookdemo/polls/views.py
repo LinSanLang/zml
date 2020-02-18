@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect,reverse
 from django.template import loader
-from .models import Question,Option,Option2
+from .models import Question,Option,Option2,User
 
+from django.contrib.auth import authenticate,login as lin,logout as lot
 # Create your views here.
 
 from django.http import HttpResponse,HttpResponseRedirect
@@ -29,15 +30,25 @@ class IndexView(ListView):
 
 def detail2(res,detaili2):
     question = Question.objects.get(id=detaili2)
-    # 使用get方法进入英雄的编辑页面
     if res.method == "GET":
-        return render(res,'detail2.html',{"question":question})
+        if res.user and res.user.username != '':
+            # question = Question.objects.get(id=detaili2)
+            if question in res.user.questions.all():
+                print('投过票了')
+                url = reverse('polls:result',args=(detaili2,))
+                return redirect(to=url)
+            else:
+                return render(res,'detail2.html',{"question":question})
+        else:
+            url = reverse('polls:login')
+            return redirect(to=url)
     elif res.method == 'POST':
         x = res.POST.get("question")
         option3 = Option2.objects.get(id=x)
         y = option3.num
         option3.num = y+1
         option3.save()
+        res.user.questions.add(Question.objects.get(id=detaili2))
         url = reverse("polls:result",args=(detaili2,))
         return redirect(to=url)
 
@@ -54,8 +65,48 @@ class Detail(View):
         url = reverse("polls:result",args=(detaili2,))
         return redirect(to=url)
 
+def login(res):
+    if res.method == 'GET':
+        return render(res,'login.html')
+    elif res.method == 'POST':
+        username = res.POST.get('username')
+        password = res.POST.get('password')
+        # 可以使用Djano自带的用户认证系统 成功返回用户 失败返回None
+        user = authenticate(username=username,password=password)
+        if user:
+            # 调用Djano 是为了生成Cook信息
+            lin(res, user)
+            url = reverse('polls:index2')
+            return redirect(to=url)
+        else:
+            url = reverse('polls:login')
+            return redirect(to=url)
+
+def regist(res):
+    if res.method =="GET":
+        return render(res,'regist.html')
+    else:
+        username = res.POST.get("username")
+        password = res.POST.get("password")
+        password2 = res.POST.get("password2")
+        if User.objects.filter(username=username).count()>0:
+            return HttpResponse('用户已经存在')
+        else:
+            if password == password2:
+                User.objects.create_user(username=username,password=password)
+                url = reverse("polls:login")
+                return redirect(to=url)
+            else:
+                return HttpResponse('密码不一致')
 
 
+
+
+def logout(res):
+    # 调用Djano的登出方法删除Cook信息
+    lot(res)
+    url = reverse('polls:index2')
+    return redirect(to=url)
 
 
 

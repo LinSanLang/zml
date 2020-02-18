@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 
 from django.views.static import serve
-from .settings import MEDIA_ROOT
+
 
 # 路由 网址 每一个网址均需要绑定视图函数 视图函数给与页面返回
 # MVT V视图函数  3个作用 接收请求 处理数据 返回数据

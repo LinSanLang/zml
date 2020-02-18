@@ -1,17 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>投票详情</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block body %}
 <form action="#" method="post" >
+    {% csrf_token %}
      问题：{{question.title}}
      <br>
     {% for option in question.option2_set.all %}
+        {% if forloop.counter == 1 %}
+            <input type="radio" value="{{option.id}}" name="question" checked > {{option.name}}
+             <br>
+        {% else %}
+             <input type="radio" value="{{option.id}}" name="question" > {{option.name}}
+             <br>
+        {% endif %}
 
-        <input type="radio" value="{{option.id}}" name="question" > {{option.name}}
-    <br>
 
 
      {% endfor %}
@@ -20,13 +22,5 @@
      <br>
     <a href="/">返回</a>
 </form>
+{% endblock %}
 
-
-
-
-
-
-
-
-</body>
-</html>

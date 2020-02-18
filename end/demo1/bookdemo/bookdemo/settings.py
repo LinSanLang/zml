@@ -52,7 +52,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -62,6 +63,7 @@ ROOT_URLCONF = 'bookdemo.urls'
 
 TEMPLATES = [
     {
+        # 指明模板使用的翻译引擎 将Djano模板翻译成Html
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 在dirs中配置自己的模板目录
         'DIRS': [os.path.join(BASE_DIR,"templates")],
@@ -132,4 +134,7 @@ STATIC_URL = '/static/'
 # 需要配置静态文件所处位置
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 
+
+# 使用自定义的用户类作为Djano的认证类需要使用配置
+AUTH_USER_MODEL = 'polls.User'
 

@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>投票结果</title>
-</head>
-<body>
-<form action="#" method="post" >
+{% extends "base.html" %}
+
+{% block body %}
+    <form action="#" method="post" >
      问题：{{question.title}}
     <br>
     当前的票信息
@@ -19,6 +15,6 @@
     </ul>
     <a href="{% url 'polls:detail2' question.id %}">返回</a>
 </form>
+{% endblock %}
 
-</body>
-</html>
+
