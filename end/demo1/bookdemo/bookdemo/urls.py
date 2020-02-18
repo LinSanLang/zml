@@ -40,6 +40,7 @@ urlpatterns = [
     path("index/",index),
     path("list/",list),
     path("json/",jsondata),
+    path('download/',include('download.urls',namespace='download')),
 
 ]
 
