@@ -40,7 +40,7 @@ def detail2(res,detaili2):
             else:
                 return render(res,'detail2.html',{"question":question})
         else:
-            url = reverse('polls:login')
+            url = reverse('polls:login')+"?next=/detail2/"+detaili2+"/"
             return redirect(to=url)
     elif res.method == 'POST':
         x = res.POST.get("question")
@@ -76,7 +76,11 @@ def login(res):
         if user:
             # 调用Djano 是为了生成Cook信息
             lin(res, user)
-            url = reverse('polls:index2')
+            next = res.GET.get('next')
+            if next:
+                url = next
+            else:
+                url = reverse('polls:index2')
             return redirect(to=url)
         else:
             url = reverse('polls:login')
