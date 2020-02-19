@@ -1,3 +1,5 @@
 # 每一行都可以编写一个忽略规则
 end/demo1/.idea
 end/demo1/venv
+end/demo2/.idea
+end/demo2/venv
