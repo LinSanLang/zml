@@ -1,12 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+            登录
+        {% endblock %}
 
 {% block body %}
-<form action="#" method="post">
+
+    <form action="#" method="post">
     {% csrf_token %}
     用户名: <input type="text" name="username">
     <br>
     密码: <input type="password" name="password">
     <br>
     <input type="submit" value="登录">
+    <p>{{error}}</p>
 </form>
 
+
+
+{% comment %}
+<form action="#" method="post">
+    {% csrf_token %}
+    {# {{lf}} #}
+    {{lf.username.label}}:{{lf.username}}
+    <br>
+    {{lf.username.help_text}}
+    <br>
+    {{lf.password.label}}:{{lf.password}}
+    <br>
+    <input type="submit" value="登录">
+
+</form>
+{% endcomment %}
 {% endblock %}

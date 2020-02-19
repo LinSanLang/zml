@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from django.template import loader
 from .models import Question,Option,Option2,User
+from .forms import *
 
 from django.contrib.auth import authenticate,login as lin,logout as lot
 # Create your views here.
@@ -67,8 +68,17 @@ class Detail(View):
 
 def login(res):
     if res.method == 'GET':
+        # 1.手动返回html表单类
         return render(res,'login.html')
+        # 2.使用表单类生成
+        # lf = LoginForm()
+        # return render(res,'login.html',{'lf':lf})
+
     elif res.method == 'POST':
+        # lf = LoginForm(res.POST)
+        # if lf.is_valid():
+        #     username = lf.cleaned_data['username']
+        #     password = lf.cleaned_data['password']
         username = res.POST.get('username')
         password = res.POST.get('password')
         # 可以使用Djano自带的用户认证系统 成功返回用户 失败返回None
@@ -83,25 +93,50 @@ def login(res):
                 url = reverse('polls:index2')
             return redirect(to=url)
         else:
-            url = reverse('polls:login')
-            return redirect(to=url)
+            return render(res,'login.html',{'error':'用户名或密码不匹配'})
+            # url = reverse('polls:login')
+            # return redirect(to=url)
 
 def regist(res):
     if res.method =="GET":
+        # 1.使用html标签
         return render(res,'regist.html')
+        # 3.
+        # rf = RegistForm()
+        # return render(res,'regist.html',{"rf":rf})
     else:
+        # 3.
+        # rf = RegistForm(res.POST)
+        # if rf.is_valid():
+        #     # rf.save()
+        #     username = rf.cleaned_data['username']
+        #     password = rf.cleaned_data['password']
+        #     password2 = rf.cleaned_data['password2']
+        #     if User.objects.filter(username=username).count() > 0:
+        #         return render(res,'regist.html', {'error': '用户已经存在'})
+        #         # return HttpResponse('用户已经存在')
+        #     else:
+        #         if password == password2:
+        #             rf.save()
+        #             # User.objects.create_user(username=username, password=password)
+        #             url = reverse("polls:login")
+        #             return redirect(to=url)
+        #         else:
+        #             return render(res,'regist.html', {'error': '密码不一致'})
         username = res.POST.get("username")
         password = res.POST.get("password")
         password2 = res.POST.get("password2")
         if User.objects.filter(username=username).count()>0:
-            return HttpResponse('用户已经存在')
+            return render(res, 'regist.html', {'error': '用户已经存在'})
+            # return HttpResponse('用户已经存在')
         else:
             if password == password2:
                 User.objects.create_user(username=username,password=password)
                 url = reverse("polls:login")
                 return redirect(to=url)
             else:
-                return HttpResponse('密码不一致')
+                return render(res,'regist.html',{'error': '密码不一致'})
+
 
 
 
