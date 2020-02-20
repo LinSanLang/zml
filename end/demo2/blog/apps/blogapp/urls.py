@@ -8,4 +8,7 @@ urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'^detail/(\d+)/$',views.detail,name='detail'),
     url(r'^contact/$', views.contact, name='contact'),
+
+    # 配置ico图标
+    url(r'^favicon.ico$',views.favicon),
 ]
