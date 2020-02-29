@@ -38,5 +38,9 @@ urlpatterns = [
     # 为了在DRF路由调试界面能够使用用户相关功能 需要引入以下路由
     path('', include('rest_framework.urls')),
     # API文档路由
-    path('api/v1/docs/',include_docs_urls(title='RestFulAPI',description='RestFulAPI v1'))
+    path('api/v1/docs/',include_docs_urls(title='RestFulAPI',description='RestFulAPI v1')),
+
+    url(r'^categorylist/$',CategoryListView.as_view(),name='categorylist'),
+    url(r'^categorydetail/(\d+)/$', CategoryListView.as_view(), name='categorydetail'),
+
 ]
