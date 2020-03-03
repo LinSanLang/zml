@@ -130,4 +130,11 @@ MEDIAFILES_DIRS = [os.path.join(BASE_DIR,'media')]
 REST_FRAMEWORK = {
     # Schema
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
+
+    # 默认权限配置 每一个http方法都可以有对应的权限配置
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.AllowAny'
+    ]
 }
+
+AUTH_USER_MODEL = 'shop.User'

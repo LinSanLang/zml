@@ -29,6 +29,8 @@ router = routers.DefaultRouter()
 router.register('categorys',CategoryViewSets)
 router.register('goods',GoodViewSets)
 router.register('goodimgs',GoodImgsViewSets)
+router.register('users',UserViewSets)
+router.register('orders',OrderViewSets)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,7 +42,10 @@ urlpatterns = [
     # API文档路由
     path('api/v1/docs/',include_docs_urls(title='RestFulAPI',description='RestFulAPI v1')),
 
-    url(r'^categorylist/$',CategoryListView.as_view(),name='categorylist'),
-    url(r'^categorydetail/(\d+)/$', CategoryListView.as_view(), name='categorydetail'),
+    # url(r'^categorylist/$',CategoryListView.as_view(),name='categorylist'),
+    # url(r'^categorydetail/(?P<pk>\d+)/$', CategoryDetailView.as_view(), name='categorydetail'),
+    #
+    # url(r'^categorys/$',CategoryViewSets2.as_view({'get':'list','post':'create'})),
+    # url(r'^categorys/(?P<pk>\d+)/$',CategoryViewSets2.as_view({'get':'retrieve','put':'update','patch':'update','delete':'destroy'})),
 
 ]
