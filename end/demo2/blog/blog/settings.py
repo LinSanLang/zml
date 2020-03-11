@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blogapp',
     'DjangoUeditor',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,16 @@ DATABASES = {
     }
 }
 
+HAYSTACK_CONNECTIONS = {
+'default': {
+'ENGINE': 'blogapp.whoosh_cn_backend.WhooshEngine',
+'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+}
+}
+
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

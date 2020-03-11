@@ -21,6 +21,15 @@ from django.views.static import serve
 from .settings import MEDIA_ROOT
 # 引入API文档路由
 from rest_framework.documentation import include_docs_urls
+
+# 引入rest_framework_simplejwt路由
+from rest_framework_simplejwt.views import token_obtain_pair
+from rest_framework_simplejwt.views import token_refresh
+
+
+# 引入jwt路由
+from rest_framework_jwt.views import obtain_jwt_token
+
 # 引入DRF自带的路由类
 from rest_framework import routers
 router = routers.DefaultRouter()
@@ -32,6 +41,7 @@ router.register('goodimgs',GoodImgsViewSets)
 router.register('users',UserViewSets)
 router.register('orders',OrderViewSets)
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
@@ -39,6 +49,13 @@ urlpatterns = [
     path('api/v1/',include(router.urls)),
     # 为了在DRF路由调试界面能够使用用户相关功能 需要引入以下路由
     path('', include('rest_framework.urls')),
+
+    # 根据提供的用户名 密码 获取token
+    url(r'^login1/$',token_obtain_pair,name='login'),
+    url(r'^refresh/$',token_refresh,name='refresh'),
+    url(r'^getuserinfo/$', getuserinfo, name='getuserinfo'),
+
+
     # API文档路由
     path('api/v1/docs/',include_docs_urls(title='RestFulAPI',description='RestFulAPI v1')),
 

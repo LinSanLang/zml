@@ -14,12 +14,26 @@ from . import permissions as mypermissions
 
 from django.shortcuts import get_object_or_404
 
-
+from rest_framework import throttling
+from .throttling import *
 
 from django.views import View
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import mixins
+
+from .pagination import *
+
+# 引入django过滤类
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
+@api_view(["GET"])
+def getuserinfo(request):
+    user = JWTAuthentication().authenticate(request)
+    seria = UserSerializer(instance=user[0])
+    return Response(seria.data,status=status.HTTP_200_OK)
 
 class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -180,12 +194,27 @@ class CategoryViewSets(viewsets.ModelViewSet):
     # 用户未登录不显示 分类列表 优先级高于全局配置
     # permission_classes = [permissions.IsAdminUser]
 
+    # 授权的前提是认证 也就是登陆过才能权限判定
+
     # 超级管理员可以创建分类 普通用户可以查看分类
     def get_permissions(self):
-        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update' or self.action == 'destory':
+        if self.action == "create" or self.action == "update" or self.action == "partial_update" or self.action == "destroy":
             return [permissions.IsAdminUser()]
         else:
             return []
+
+    # throttle_classes = [throttling.AnonRateThrottle,throttling.UserRateThrottle]
+    # 使用自定义的次数限制
+    throttle_classes = [MyAnon,MyUser]
+    # 使用自定义的分页
+    # pagination_class = Mypangination
+
+    # 局部过滤配置
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    filter_fields = ['name']
+    search_fields = ['name']
+    ordering_fields = ['id']
+
 
 class GoodViewSets(viewsets.ModelViewSet):
     queryset = Good.objects.all()

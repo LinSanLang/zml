@@ -2,10 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-
-
-
-
 class GoodSerializer1(serializers.ModelSerializer):
     # 在序列化时指定字段  在多方 使用source = 模型名.字段名
     # read_only= True标识不能更改(get 显示  update不显示)
@@ -40,6 +36,8 @@ class CategorySerizlizer(serializers.Serializer):
         "min_length":"最少3个字"
     })
 
+
+
     def create(self, validated_data):
         """
         通过重写create方法 来定义模型创建方式
@@ -58,8 +56,8 @@ class CategorySerizlizer(serializers.Serializer):
         :param validated_data: 更改参数
         :return: 返回的新实例
         """
-        print("重写更新方法",validated_data,instance.name)
-        instance.name = validated_data.get("name",instance.name)
+        print("重写更新方法", validated_data, instance.name)
+        instance.name = validated_data.get("name", instance.name)
         print(instance.name)
         instance.save()
         return instance
@@ -176,6 +174,7 @@ class CategorySerizlizer1(serializers.ModelSerializer):
         fields = ('id','name','goods')
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = User
         # 设置显示的信息  __all__ 代表模型中的所有字段

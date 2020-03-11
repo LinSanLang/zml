@@ -33,7 +33,7 @@ class Article(models.Model):
     # body = models.TextField(verbose_name="正文")
     # 使用百度附文本字段类型
     body = UEditorField(imagePath="img/",width='100%')
-    tags = models.ManyToManyField(Tag)\
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.title
