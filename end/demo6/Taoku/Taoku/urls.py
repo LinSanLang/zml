@@ -23,12 +23,12 @@ from .settings import MEDIA_ROOT
 from rest_framework.documentation import include_docs_urls
 
 # 引入rest_framework_simplejwt路由
-# from rest_framework_simplejwt.views import token_obtain_pair
-# from rest_framework_simplejwt.views import token_refresh
+from rest_framework_simplejwt.views import token_obtain_pair
+from rest_framework_simplejwt.views import token_refresh
 
 
 # 引入jwt路由
-# from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token
 
 # 引入DRF自带的路由类
 from rest_framework import routers
@@ -38,8 +38,8 @@ router = routers.DefaultRouter()
 router.register('categorys',CategoryViewSets)
 router.register('goods',GoodViewSets)
 router.register('goodimgs',GoodImgsViewSets)
-# router.register('users',UserViewSets)
-# router.register('orders',OrderViewSets)
+router.register('users',UserViewSets)
+router.register('orders',OrderViewSets)
 router.register('flashs',FlashViewSets)
 router.register('kills',KillViewSets)
 router.register('internations',InternationViewSets)
@@ -56,4 +56,8 @@ urlpatterns = [
     path('', include('rest_framework.urls')),
     # API文档路由
     path('api/v1/docs/',include_docs_urls(title='RestFulAPI',description='RestFulAPI v1')),
+    # 根据提供的用户名 密码 获取token
+    url(r'^login1/$', token_obtain_pair, name='login'),
+    url(r'^refresh/$', token_refresh, name='refresh'),
+    url(r'^getuserinfo/$', getuserinfo, name='getuserinfo'),
 ]

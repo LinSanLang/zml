@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shopapp',
     'rest_framework',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,6 +131,9 @@ STATIC_URL = '/static/'
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIAFILES_DIRS = [os.path.join(BASE_DIR,'media')]
+
+# 应用名 模型名 推荐在没有数据库的前提去配置
+AUTH_USER_MODEL = 'shopapp.User'
 
 # 允许跨域
 CORS_ORIGIN_ALLOW_ALL = True

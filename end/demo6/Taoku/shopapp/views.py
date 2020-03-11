@@ -15,6 +15,8 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import throttling
 
+from . import permissions as mypermissions
+
 from django.views import View
 from rest_framework.views import APIView
 from rest_framework import generics
@@ -27,6 +29,17 @@ from rest_framework import filters
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
+@api_view(["GET"])
+def getuserinfo(request):
+    user = JWTAuthentication().authenticate(request)
+    seria = UserSerializer(instance=user[0])
+    return Response(seria.data,status=status.HTTP_200_OK)
+
+class BigcategoryViewSets(viewsets.ModelViewSet):
+    queryset = Bigcategory.objects.all()
+    serializer_class = BigcategorySerializer
 
 class CategoryViewSets(viewsets.ModelViewSet):
     """
@@ -79,3 +92,39 @@ class InternationViewSets(viewsets.ModelViewSet):
 class TaokushopViewSets(viewsets.ModelViewSet):
     queryset = Taokushop.objects.all()
     serializer_class = TaokushopSerializer
+
+class UserViewSets(viewsets.GenericViewSet,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin):
+    """
+    声明用户资源类 用户操作：获取个人信息 更新个人信息 删除账户
+    扩展action路由 用户操作：创建用户
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # 使用action扩展资源的http方法
+    # @action(methods=["POST"],detail=False)
+    # def regist(self,request):
+    #     seria = UserRegistSerializer(data=request.data)
+    #     seria.is_valid()
+    #     seria.save()
+    #     return Response(seria.data,status=status.HTTP_201_CREATED)
+
+    def get_serializer_class(self):
+        print('action代表http方法',self.action)
+        if self.action == 'create':
+            return UserRegistSerializer
+        return UserSerializer
+
+class OrderViewSets(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    # permission_classes = [mypermissions.OrdersPermission]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.IsAuthenticated()]
+        elif self.action == 'update' or self.action == 'partial_update' or self.action == 'retrieve' or self.action == 'destory':
+            return [mypermissions.OrdersPermission()]
+        else:
+            return [permissions.IsAdminUser()]
